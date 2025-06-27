@@ -39,9 +39,9 @@ class Config:
         gradient_clip=0.5,
         lr_step_size=1,
         lr_gamma=0.85,
-        dataset="urgent",
-        score_diff_thres=0.0,
-        # data_path="/home/wangyou.zhang/urgent2024_challenge/submissions/", # /home/jiahe.wang/workspace/urgent26/local/virtual_team_vctk_train
+        dataset="/home/wangyou.zhang/urgent2024_challenge/submissions/",
+        delta=0.0,
+        # data_path="/home/wangyou.zhang/urgent2024_challenge/submissions/", # local/virtual_team_vctk_train
         encoder="utmos",
         backbone="resnet34",
         tune_utmos=False,
@@ -65,7 +65,7 @@ class Config:
         self.resume = resume
         self.seed = seed
         self.dataset = dataset
-        self.score_diff_thres = score_diff_thres
+        self.delta = delta
         # self.data_path = data_path
         self.encoder = encoder
         self.backbone = backbone

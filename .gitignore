@@ -12,3 +12,4 @@ submissions/
 *.vscode/
 *.ckpt
 *nohup.out
+*old.py

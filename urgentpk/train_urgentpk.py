@@ -2,8 +2,6 @@
 
 import os
 from torch import optim, nn, utils, Tensor
-# from torchvision.datasets import MNIST
-# from torchvision.transforms import ToTensor
 import lightning as L
 import torch
 import argparse
@@ -11,11 +9,9 @@ from argparse import ArgumentParser
 from lightning.pytorch.loggers import TensorBoardLogger
 from lightning.pytorch.callbacks import  ModelCheckpoint
 import torch.multiprocessing as mp
-# from model import AbTestModel, Config
-# from model_resnet import AbTestModel, Config
-# from model_mod import AbTestModel, Config
 from urgentpk_model import AbTestModel, Config
-from prepare_dataset import ABDataset_urgent24, ABDataset_urgent25, MyDataModule, ABDataset_vctk, ABDataset_urgent25_integrate
+from PKDataset_old import MOSDataset, MOSDataset25, PKDataset_urgent24, PKDataset_urgent25, PKDataset_vctk, PKDataset_urgent25_integrate, PKDataset_chime
+from PKDataset import PKDataset, MyDataModule
 
 
 def config_parser():
@@ -41,34 +37,10 @@ def config_parser():
     return args
 
 def prepare_data_module(cfg):
-    print("### prepare data module ###")
-    # if cfg.data_path.endswith("vctk_train") or cfg.data_path.endswith("vctk"):
-    if cfg.dataset == "vctk":
-        print("[in prepare data module] using vctk dataset!", flush=True)
-        train_set = ABDataset_vctk("/home/jiahe.wang/workspace/urgent26/local/virtual_team_vctk_train", 'tr', fs=cfg.fs, gap_thres=cfg.score_diff_thres)
-        val_set = ABDataset_vctk("/home/jiahe.wang/workspace/urgent26/local/virtual_team_vctk_train", 'cv', fs=cfg.fs, gap_thres=cfg.score_diff_thres)
-    elif cfg.dataset == "urgent" or cfg.dataset == "urgent24":
-        print("[in prepare data module] using urgent24 dataset!", flush=True)
-        train_set = ABDataset_urgent24("/home/wangyou.zhang/urgent2024_challenge/submissions/", 'tr', fs=cfg.fs, gap_thres=cfg.score_diff_thres)
-        val_set = ABDataset_urgent24("/home/wangyou.zhang/urgent2024_challenge/submissions/", 'cv', fs=cfg.fs, gap_thres=cfg.score_diff_thres)
-    elif cfg.dataset == "urgent25":
-        print("[in prepare data module] using urgent25 dataset!", flush=True)
-        train_set = ABDataset_urgent25("/home/chenda.li/workspace/urgent26/urgent25_submissions", 'tr', fs=cfg.fs, gap_thres=cfg.score_diff_thres)
-        val_set = ABDataset_urgent25("/home/chenda.li/workspace/urgent26/urgent25_submissions", 'cv', fs=cfg.fs, gap_thres=cfg.score_diff_thres)
-    elif cfg.dataset == "urgent25_int":
-        print("[in prepare data module] using urgent25 integrate dataset!", flush=True)
-        train_set = ABDataset_urgent25_integrate("/home/chenda.li/workspace/urgent26/urgent25_submissions", 'tr', fs=cfg.fs, gap_thres=cfg.score_diff_thres)
-        val_set = ABDataset_urgent25_integrate("/home/chenda.li/workspace/urgent26/urgent25_submissions", 'cv', fs=cfg.fs, gap_thres=cfg.score_diff_thres)
-    else:
-        print("[in prepare data module] dataset unknown! using default urgent24!", flush=True)
-        train_set = ABDataset_urgent24("/home/wangyou.zhang/urgent2024_challenge/submissions/", 'tr', fs=cfg.fs, gap_thres=cfg.score_diff_thres)
-        val_set = ABDataset_urgent24("/home/wangyou.zhang/urgent2024_challenge/submissions/", 'cv', fs=cfg.fs, gap_thres=cfg.score_diff_thres)
-
-    print("train set len:", len(train_set), flush=True)
-    print("val set len:", len(val_set), flush=True)
+    train_set = PKDataset(cfg.dataset, 'tr', fs=cfg.fs, delta=cfg.delta)
+    val_set = PKDataset(cfg.dataset, 'cv', fs=cfg.fs, delta=cfg.delta)
     data_module = MyDataModule(train_set=train_set, val_set=val_set, cfg=cfg)
     return data_module
-
 
 def prepare_call_backs(cfg):
 
@@ -92,7 +64,7 @@ def prepare_call_backs(cfg):
 
     return call_backs
 
-if __name__ == "__main__":
+def main():
     # mp.set_start_method('spawn')
     torch.set_float32_matmul_precision('medium')
     args = config_parser()
@@ -125,3 +97,6 @@ if __name__ == "__main__":
         callbacks=call_backs,
     )
     trainer.fit(model=model, datamodule=data_module, ckpt_path=last_ckpt,)
+
+if __name__ == "__main__":
+    main()

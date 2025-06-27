@@ -1,6 +1,6 @@
-from prepare_dataset import MOSDataset, MOSDataset25, ABDataset_urgent24, ABDataset_urgent25, ABDataset_vctk, ABDataset_urgent25_integrate, ABDataset_chime
-# from model import AbTestModel
-from model_mod import AbTestModel, AbTestModel_old
+from PKDataset_old import MOSDataset, MOSDataset25, PKDataset_urgent24, PKDataset_urgent25, PKDataset_vctk, PKDataset_urgent25_integrate, PKDataset_chime
+from PKDataset import PKDataset
+from urgentpk_model import AbTestModel
 import itertools
 import torchaudio
 import torch
@@ -46,7 +46,7 @@ def get_abtest(ckpt="none"):
         ab_model = ab_model.to(device)
         ab_model.eval()
 
-        abtest_dir = "/home/jiahe.wang/workspace/urgent26/local/real_abtest_20"
+        abtest_dir = "local/real_abtest_20"
         group_num = 6
         pair_num = 20
 
