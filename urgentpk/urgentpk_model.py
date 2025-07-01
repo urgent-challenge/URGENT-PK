@@ -6,9 +6,9 @@ import torch
 from wavLM import WavLM, WavLMConfig
 from resnet import ResNet34
 import torchaudio
-import utmos
-from utmos.lightning_module import BaselineLightningModule
-from utmos.model import Projection, SSL_model
+# import utmos
+# from utmos.lightning_module import BaselineLightningModule
+# from utmos.model import Projection, SSL_model
 from resnet import ResNet34, ResNet18
 import os
 from tqdm import tqdm
@@ -82,16 +82,15 @@ class AbModel(torch.nn.Module):
         super().__init__()
         self.encoder_name = cfg.encoder
         self.backbone = cfg.backbone
-        assert self.encoder_name in ["mel", "stft", "utmos"], "encoder should be mel, stft or utmos!"
+        assert self.encoder_name in ["mel", "stft"], "encoder should be 'mel' or 'stft'!"
         if self.encoder_name == "mel":
             self.encoder = torch.nn.Sequential(torchaudio.transforms.MelSpectrogram(sample_rate=16000, n_fft=320, win_length=160, n_mels=120),
                                                torchaudio.transforms.AmplitudeToDB())
             self.feat_dim = 120
-
         elif self.encoder_name == "stft":
             self.encoder = stft_encoder(n_fft=320, hop_length=160, win_length=320)
             self.feat_dim = 322
-
+        '''
         elif self.encoder_name == "utmos":
             self.utmos_model = BaselineLightningModule.load_from_checkpoint('/home/chenda.li/workspace/urgent26/abtest_model/utmos/model.ckpt')
             if cfg is not None and not cfg.tune_utmos:
@@ -102,19 +101,21 @@ class AbModel(torch.nn.Module):
             del self.utmos_model.output_layers[-1]
             self.encoder = self.utmos_model.forward_feature
             self.feat_dim = 1024
+        '''
         # encoder output: [B, 2, L, N]
 
         self.model = choose_model(model_name=cfg.backbone, feat_dim=self.feat_dim)
         # model output: [B, 3]
 
         print("### AbModel init ###")
-        print("encoder:", self.encoder_name)
-        print("backbone:", self.backbone)
-        print("feature dim:", self.feat_dim)
-        print("tune utmos:", cfg.tune_utmos)
+        print("encoder:", self.encoder_name, flush=True)
+        print("backbone:", self.backbone, flush=True)
+        print("feature dim:", self.feat_dim, flush=True)
+        # print("tune utmos:", cfg.tune_utmos)
     
     def forward(self, input):
         B, C, L = input.shape
+        '''
         if self.encoder_name == "utmos":
             batch = {'wav': input.reshape(B*C, L),
                      'domains': torch.tensor([0]*B*C),
@@ -122,7 +123,8 @@ class AbModel(torch.nn.Module):
             feat = self.utmos_model.forward_feature(batch) # self.encoder(batch)
             feat = feat.view(B, C, feat.shape[-2], feat.shape[-1])
         else:
-            feat = self.encoder(input).permute(0, 1, 3, 2).contiguous()
+        '''
+        feat = self.encoder(input).permute(0, 1, 3, 2).contiguous()
 
         sp = feat.shape
         assert sp[-1] == self.feat_dim and sp[0] == B and sp[1] == 2 and len(sp) == 4, "feature shape should be [B, 2, L, N]!"
@@ -220,14 +222,8 @@ if __name__ == "__main__":
     backbone = "resnet34"
     config = Config()
     input = torch.randn((8, 2, 10000)).to("cuda:0")
-    # for encoder in encoder_list:
-    #     for backbone in backbone_list:
     config.backbone = backbone
     config.encoder = encoder
-    # print("###", encoder, backbone)
     model = AbModel(config).to("cuda:0")
     out = model(input)
     assert out[0].shape == (8, 1) and out[1].shape == (8, 2)
-    print("###", encoder, backbone, "success!")
-
-    

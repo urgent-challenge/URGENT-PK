@@ -13,8 +13,8 @@ python train_urgentpk.py \
     --batch_size 12 \
     --resume true \
     --learning_rate 0.0001 \
-    --dataset urgent24 \
-    --score_diff_thres 0.30 \
+    --dataset /home/jiahe.wang/workspace/urgentpk/urgentpk/local/PKDataset24 \
+    --delta 0.30 \
     --encoder mel \
     --backbone resnet34 \
     --tune_utmos False \

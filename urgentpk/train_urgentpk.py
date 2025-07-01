@@ -10,9 +10,7 @@ from lightning.pytorch.loggers import TensorBoardLogger
 from lightning.pytorch.callbacks import  ModelCheckpoint
 import torch.multiprocessing as mp
 from urgentpk_model import AbTestModel, Config
-from PKDataset_old import MOSDataset, MOSDataset25, PKDataset_urgent24, PKDataset_urgent25, PKDataset_vctk, PKDataset_urgent25_integrate, PKDataset_chime
 from PKDataset import PKDataset, MyDataModule
-
 
 def config_parser():
     cfg = Config()

@@ -44,6 +44,30 @@ def get_len_from_dic(dic):
         tot = tot + dua
     return tot
 
+def trim_teams_wavs_mos(teams_mos, teams_wav):
+    teams = teams_mos.keys()
+    utts = set()
+    assert not utts, "utts is not empty!"
+    
+    for team in teams:
+        team_mos = teams_mos[team]
+        team_wav = teams_wav[team]
+        utt_from_mos = set(team_mos.keys())
+        utt_from_wav = set(team_wav.keys())
+        team_utt = utt_from_mos.intersection(utt_from_wav)
+        if not utts:
+            utts = team_utt
+        else:
+            utts = utts.intersection(team_utt)
+    
+    for team in teams:
+        team_mos = teams_mos[team]
+        team_wav = teams_wav[team]
+        teams_mos[team] = {utt: team_mos[utt] for utt in utts}
+        teams_wav[team] = {utt: team_wav[utt] for utt in utts}
+
+    return teams_mos, teams_wav
+
 def check_teams_wavs_mos(teams_mos, teams_wav):
     assert len(teams_mos) == len(teams_wav), (len(teams_mos), len(teams_wav))
     assert set(teams_mos.keys()) == set(teams_wav.keys()), "teams ID error!"
@@ -60,7 +84,7 @@ def check_teams_wavs_mos(teams_mos, teams_wav):
         else:
             assert keys_len == len(team_mos)
             assert keys_set == set(team_mos.keys())
-    print("PKDataset checked!", "team number:", len(teams_mos), "utt number:", keys_len)
+    print("PKDataset checked!", "teams:", len(teams_mos), "utts:", keys_len)
 
 '''
 PKDataset be like:
@@ -101,7 +125,8 @@ class PKDataset(torch.utils.data.Dataset):
         if os.path.exists(f'{self.root_path}/split.json'):
             with open(f'{self.root_path}/split.json', 'r') as f:
                 self.split = json.load(f)
-        assert self.split is not None and 'tr' in self.split, "A 'split.json' is required to load the dataset, see README.md for more details!"
+        assert self.split is not None and 'tr' in self.split, "'split.json' is required to load the dataset, see README.md for more details!"
+        # print(self.split)
 
         teams_wav, teams_mos, self.wav_pairs, self.mos_pairs = self.load_wavs()
         check_teams_wavs_mos(teams_wav, teams_mos)
@@ -138,7 +163,8 @@ class PKDataset(torch.utils.data.Dataset):
             teams_wav[team] = read_scp(wav_scp)
             mos_scp = f'{self.root_path}/{team}/mos.scp'
             teams_mos[team] = read_scp(mos_scp)
-
+        
+        teams_mos, teams_wav = trim_teams_wavs_mos(teams_mos, teams_wav)
         wav_pairs = []
         mos_pairs = []
         utt_keys = self.split[self.folder]
@@ -174,7 +200,8 @@ class PKDataset(torch.utils.data.Dataset):
             mos_scp = f'{self.root_path}/{team}/mos.scp'
             teams_mos[team] = read_scp(mos_scp)
             teams_mos[team] = {k: teams_mos[team][k] for k in keys}
-
+        
+        teams_mos, teams_wav = trim_teams_wavs_mos(teams_mos, teams_wav)
         return teams_wav, teams_mos
 
     def load_wavs_tt(self,):
@@ -198,6 +225,7 @@ class PKDataset(torch.utils.data.Dataset):
             teams_mos[team] = read_scp(mos_scp)
             teams_mos[team] = {k: teams_mos[team][k] for k in keys}
 
+        teams_mos, teams_wav = trim_teams_wavs_mos(teams_mos, teams_wav)
         return teams_wav, teams_mos
 
 def padding_collect_fn(feature):
@@ -252,4 +280,10 @@ class MyDataModule(lightning.LightningDataModule):
             return None
 
 if __name__ == "__main__":
-    pass
+    urgent25data = PKDataset(root_path="/home/jiahe.wang/workspace/urgentpk/urgentpk/local/PKDataset24", folder="tr", fs=16000, delta=0.3)
+    teams_wav, teams_mos, wav_pairs, mos_pairs = urgent25data.load_wavs()
+    check_teams_wavs_mos(teams_mos, teams_wav)
+    teams_wav, teams_mos = urgent25data.load_wavs_cv()
+    check_teams_wavs_mos(teams_mos, teams_wav)
+    teams_wav, teams_mos = urgent25data.load_wavs_tt()
+    check_teams_wavs_mos(teams_mos, teams_wav)
