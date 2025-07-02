@@ -6,3 +6,4 @@ urgentpk/__pycache__
 *.ckpt
 *nohup.out
 *old.py
+*.sh
