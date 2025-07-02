@@ -59,6 +59,18 @@ python urgentpk/rank.py --ckpt_path exp/latest.ckpt --dataset data/urgent25 --su
 
     * `get_mos_noise`: the **Noisy-Speech Strategy** in the **ablation study** on the Predicted MOS.
 
+* `--noisy_team` points out the team made up of untreated noisy speeches, which only works when `--score_mode get_mos_noise`.
+
+## Pretrained models
+
+We have provided several pretrained model checkpoints, corresponding to the models tested in our [paper](https://arxiv.org/abs/2506.23874). Note that you have to install [UTMOS](https://github.com/sarulab-speech/UTMOS22) manually if you want to use the UTMOS-based URGENT-PK models.
+
+|Encoder|Decoder|Training Data|Download|
+|:-----:|:-----:|:-----------:|:------:|
+|Log-Mel Spectrum|ResNet34|Urgent Challenge 2024|[Huggingface :satisfied:](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/mel_resnet34_urgent24.ckpt)|
+|[UTMOS](https://github.com/sarulab-speech/UTMOS22) *(fixed)*|ResNet34|Urgent Challenge 2024|[Huggingface :satisfied:](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/utmos_fix_resnet34_urgent24.ckpt)|
+|[UTMOS](https://github.com/sarulab-speech/UTMOS22) *(fine-tuned)*|ResNet34|Urgent Challenge 2024|[Huggingface :satisfied:](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/utmos_ft_resnet34_urgent24.ckpt)|
+
 ## To build your own dataset for URGENT-PK
 
 Suppose a total of *K* systems, the dataset folder should follow the structure as:
