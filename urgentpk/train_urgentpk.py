@@ -9,8 +9,8 @@ from argparse import ArgumentParser
 from lightning.pytorch.loggers import TensorBoardLogger
 from lightning.pytorch.callbacks import  ModelCheckpoint
 import torch.multiprocessing as mp
-from urgentpk_model import AbTestModel, Config
-from PKDataset import PKDataset, MyDataModule
+from urgentpk.urgentpk_model import AbTestModel, Config
+from urgentpk.PKDataset import PKDataset, MyDataModule
 
 def config_parser():
     cfg = Config()

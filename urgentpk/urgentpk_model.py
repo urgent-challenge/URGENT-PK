@@ -3,18 +3,17 @@ import lightning as L
 from torch.optim.optimizer import Optimizer
 # from transformers import AdamW, get_linear_schedule_with_warmup
 import torch
-from wavLM import WavLM, WavLMConfig
-from resnet import ResNet34
+# from urgentpk.wavLM import WavLM, WavLMConfig
 import torchaudio
 # import utmos
 # from utmos.lightning_module import BaselineLightningModule
 # from utmos.model import Projection, SSL_model
-from resnet import ResNet34, ResNet18
+from urgentpk.resnet import ResNet34, ResNet18
 import os
 from tqdm import tqdm
 import torch.nn.functional as F
-from urgentpk_encoder import stft_encoder
-from urgentpk_backbone import choose_model
+from urgentpk.urgentpk_encoder import stft_encoder
+from urgentpk.urgentpk_backbone import choose_model
 
 class Config:
     def __init__(

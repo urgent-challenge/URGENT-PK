@@ -12,7 +12,7 @@ The Mean Opinion Score (MOS) is fundamental to speech quality assessment. Howeve
 ```
 git clone https://github.com/urgent-challenge/URGENT-PK.git
 cd urgentpk
-pip install -r requirements.txt
+pip install -e ./
 ```
 
 ## To train the URGENT-PK model

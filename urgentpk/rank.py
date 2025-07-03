@@ -1,5 +1,5 @@
-from PKDataset import PKDataset
-from urgentpk_model import AbTestModel
+from urgentpk.PKDataset import PKDataset
+from urgentpk.urgentpk_model import AbTestModel
 import itertools
 import torchaudio
 import torch
