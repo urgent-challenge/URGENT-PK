@@ -15,6 +15,12 @@ cd URGENT-PK
 pip install -e ./
 ```
 
+Or
+
+```
+pip install git+https://github.com/urgent-challenge/URGENT-PK.git
+```
+
 ## To train the URGENT-PK model
 
 
