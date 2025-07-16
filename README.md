@@ -17,21 +17,26 @@ pip install -e ./
 
 ## To train the URGENT-PK model
 
+
 ### An instruction example
 
 ```
 python urgentpk/train_urgentpk.py --dataset data/urgent24 --delta 0.30 --encoder mel --backbone resnet34
 ```
 
+
+
 ### Important arguments:
 
-* `--dataset` indicates the path of the dataset folder.
+* `--dataset` indicates the path of the dataset folder. 
     
 * `--delta` sets the 'MOS difference threshold' in data cleaning, only speech pairs with a MOS difference larger than this threshold are included in the training data.
 
 * `--encoder` sets the encoder in the model, we have provided `mel` and `stft`, you can design your own encoder in `urgentpk/urgentpk_encoder.py`.
 
 * `--backbone` sets the comparing module in the model, we have provided `resnet34`, you can build your own model in `urgentpk/urgentpk_backbone.py`.
+
+❗️❗️ The dataset to train the official URGENT-PK model will be released soon. Currently, you can refer to the subsequent documentation to learn how to utilize your own dataset or use the model checkpoint we provide.
 
 ## To test the URGENT-PK model
 
