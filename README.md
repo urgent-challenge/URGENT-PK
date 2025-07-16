@@ -78,9 +78,9 @@ We have provided several pretrained model checkpoints, corresponding to the mode
 
 |Encoder|Decoder|Training Data|Download|
 |:-----:|:-----:|:-----------:|:------:|
-|Log-Mel Spectrum|ResNet34|Urgent Challenge 2024|[Huggingface :satisfied:](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/mel_resnet34_urgent24.ckpt)|
-|[UTMOS](https://github.com/sarulab-speech/UTMOS22) *(fixed)*|ResNet34|Urgent Challenge 2024|[Huggingface :satisfied:](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/utmos_fix_resnet34_urgent24.ckpt)|
-|[UTMOS](https://github.com/sarulab-speech/UTMOS22) *(fine-tuned)*|ResNet34|Urgent Challenge 2024|[Huggingface :satisfied:](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/utmos_ft_resnet34_urgent24.ckpt)|
+|Log-Mel Spectrum|ResNet34|Urgent Challenge 2024|[Huggingface 🤗](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/mel_resnet34_urgent24.ckpt)|
+|[UTMOS](https://github.com/sarulab-speech/UTMOS22) *(fixed)*|ResNet34|Urgent Challenge 2024|[Huggingface 🤗](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/utmos_fix_resnet34_urgent24.ckpt)|
+|[UTMOS](https://github.com/sarulab-speech/UTMOS22) *(fine-tuned)*|ResNet34|Urgent Challenge 2024|[Huggingface 🤗](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/utmos_ft_resnet34_urgent24.ckpt)|
 
 ## To build your own dataset for URGENT-PK
 
