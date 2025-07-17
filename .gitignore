@@ -1,6 +1,9 @@
 urgentpk/exp*/
 urgentpk/logs/
 urgentpk/local/
+build/
+dist/
+*egg-info/
 urgentpk/__pycache__
 *.vscode/
 *.ckpt

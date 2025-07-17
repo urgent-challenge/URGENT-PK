@@ -98,3 +98,19 @@ where `split.json` splits the dataset into `training`, `validation` and `testing
 ```
 
 Remember to make sure that each system folder contains the same utterances. If you need to make more modification, the dataset is loaded by `PKDataset()` in `urgentpk/PKDataset.py`. In the training stage, `PKDataset()` returns a pair of lists containing wave pairs and MOS pairs in `__init__()`. In the validation and testing stage, `PKDataset()` returns a pair of `scp` dictionaries in `load_wavs_cv()` and `load_wavs_tt()`.
+
+### Utilizing the open source Urgent2024_mos dataset
+
+The [Urgent2024_mos](https://huggingface.co/datasets/urgent-challenge/urgent2024_mos) dataset has been released on Huggingface, so we provide an additional python script to download this dataset and transform it into the `PKDataset` structure. You can simply run:
+
+```
+python urgentpk/get_urgent2024_mos.py --dataset_dir ./data/PKDataset_urgent2024 --wav_dir ./data/wavs_urgent2024 --cv_num 10
+```
+
+where the arguments is detailed as follows:
+
+* `--dataset_dir` sets the path of the PKDataset folder, which only contains `.scp` files and `split.json`, `./PKDataset` by default.
+
+* `--wav_dir` sets the folder to save the audio files, `./PKDataset_wavs` by default.
+
+* `--cv_num` sets the number of utterances in the validation subset, `10` by default.
