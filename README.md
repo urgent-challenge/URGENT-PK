@@ -11,11 +11,18 @@ The Mean Opinion Score (MOS) is fundamental to speech quality assessment. Howeve
 
 ```
 git clone https://github.com/urgent-challenge/URGENT-PK.git
-cd urgentpk
+cd URGENT-PK
 pip install -e ./
 ```
 
+Or
+
+```
+pip install git+https://github.com/urgent-challenge/URGENT-PK.git
+```
+
 ## To train the URGENT-PK model
+
 
 ### An instruction example
 
@@ -23,15 +30,19 @@ pip install -e ./
 python urgentpk/train_urgentpk.py --dataset data/urgent24 --delta 0.30 --encoder mel --backbone resnet34
 ```
 
+
+
 ### Important arguments:
 
-* `--dataset` indicates the path of the dataset folder.
+* `--dataset` indicates the path of the dataset folder. 
     
 * `--delta` sets the 'MOS difference threshold' in data cleaning, only speech pairs with a MOS difference larger than this threshold are included in the training data.
 
 * `--encoder` sets the encoder in the model, we have provided `mel` and `stft`, you can design your own encoder in `urgentpk/urgentpk_encoder.py`.
 
 * `--backbone` sets the comparing module in the model, we have provided `resnet34`, you can build your own model in `urgentpk/urgentpk_backbone.py`.
+
+❗️❗️ The dataset to train the official URGENT-PK model will be released soon. Currently, you can refer to the subsequent documentation to learn how to utilize your own dataset or use the model checkpoint we provide.
 
 ## To test the URGENT-PK model
 
@@ -67,9 +78,9 @@ We have provided several pretrained model checkpoints, corresponding to the mode
 
 |Encoder|Decoder|Training Data|Download|
 |:-----:|:-----:|:-----------:|:------:|
-|Log-Mel Spectrum|ResNet34|Urgent Challenge 2024|[Huggingface :satisfied:](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/mel_resnet34_urgent24.ckpt)|
-|[UTMOS](https://github.com/sarulab-speech/UTMOS22) *(fixed)*|ResNet34|Urgent Challenge 2024|[Huggingface :satisfied:](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/utmos_fix_resnet34_urgent24.ckpt)|
-|[UTMOS](https://github.com/sarulab-speech/UTMOS22) *(fine-tuned)*|ResNet34|Urgent Challenge 2024|[Huggingface :satisfied:](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/utmos_ft_resnet34_urgent24.ckpt)|
+|Log-Mel Spectrum|ResNet34|Urgent Challenge 2024|[Huggingface 🤗](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/mel_resnet34_urgent24.ckpt)|
+|[UTMOS](https://github.com/sarulab-speech/UTMOS22) *(fixed)*|ResNet34|Urgent Challenge 2024|[Huggingface 🤗](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/utmos_fix_resnet34_urgent24.ckpt)|
+|[UTMOS](https://github.com/sarulab-speech/UTMOS22) *(fine-tuned)*|ResNet34|Urgent Challenge 2024|[Huggingface 🤗](https://huggingface.co/Twinkzzzzz/URGENT-PK/blob/main/utmos_ft_resnet34_urgent24.ckpt)|
 
 ## To build your own dataset for URGENT-PK
 
